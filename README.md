@@ -1,46 +1,43 @@
-# Getting Started with Create React App
+# Demo: disable `react-error-overlay` in create-react-app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Based on [this SO question](https://stackoverflow.com/questions/46589819/disable-error-overlay-in-development-mode).
 
-## Available Scripts
+This repo demonstrates how you can turn `react-error-overlay` from a mandatory-thing-you-never-asked-for into a handy-opt-in-feature.
 
-In the project directory, you can run:
+## Why ever need this?
 
-### `yarn start`
+See discussion under [this answer](https://stackoverflow.com/a/47400249/3437433)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+In very short:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+> When developing error boundary components and styling/testing how they look, this is an extremely annoying feature. It slows down development and adds no value. You should allow developers to decide whether they want this feature turned on or not
 
-### `yarn test`
+## What you should observe
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+When checkbox `Enable react-error-overlay` is off, after clicking "explode" button:
+* it'll immediately show error fallback element.
+* in console you'll see message `Following error has been caught by <ErrorBoundary> component ...`
 
-### `yarn build`
+When checkbox is on:
+* react-error-overlay will appear as it does by default in react-app
+* in console you'll see `Uncaught Error ...`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## How it works
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+In general, it's based on [this answer](https://stackoverflow.com/a/54549601/3437433).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+It sets up a global error handler – to intercept uncaught errors before react-error-overlay does, and handle them in a special way.
 
-### `yarn eject`
+And it provides customized ErrorBoundary component (based on [react-error-boundary](https://github.com/bvaughn/react-error-boundary) package), which marks errors handled by it as caught, so our global handler can decide whether to show overlay.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Unfortunately, using `event.stopImmediatePropagation()` is not appropriate (see comment under the mentioned answer), since it breaks all error-boundaries too.
+So instead, to "disable" overlay we'll just hide it via `display: none`.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Implementation
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+See these files:
+* [setupReactAppOverlayErrorHandler.ts](/src/setupReactAppOverlayErrorHandler.ts)
+* [ErrorBoundary.tsx](/src/ErrorBoundary.tsx)
+plus actual setup in `src/index.tsx`.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Feel free to copy and integrate this into your project, if you find it any useful.
