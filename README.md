@@ -14,6 +14,8 @@ Open `http://localhost:3000`
 
 ## What you should observe
 
+<img src="https://user-images.githubusercontent.com/2756868/145636252-bcfb8a7c-a7f2-4271-aa9d-78a3cb2bc7e3.png" width="500" />
+
 When checkbox `Enable react-error-overlay` is off, after clicking "explode" button:
 * it'll immediately show error fallback element.
 * in console you'll see message `Following error has been caught by <ErrorBoundary> component ...`
