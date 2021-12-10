@@ -1,6 +1,8 @@
-# Demo: disable `react-error-overlay` in create-react-app
+# Demo: react-app-error-boundary
 
 Demonstrates how [react-app-error-boundary](https://www.npmjs.com/package/react-app-error-boundary) package works.
+
+Disables `react-error-overlay` in create-react-app *for a particular error boundary* (instead of disabling it once and for all).
 
 ## How to use
 
