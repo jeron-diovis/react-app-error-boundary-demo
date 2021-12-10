@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from 'react'
 import { ReactComponent as Logo } from './logo.svg';
 import './App.css';
 
-import ErrorBoundary from './ErrorBoundary'
+import { ErrorBoundary } from 'react-app-error-boundary'
 
 function App() {
   return (

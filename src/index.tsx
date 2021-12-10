@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { setupReactAppOverlayErrorHandler } from './setupReactAppOverlayErrorHandler'
+import { setupReactAppOverlayErrorHandler } from 'react-app-error-boundary'
 
 ReactDOM.render(
   <React.StrictMode>
